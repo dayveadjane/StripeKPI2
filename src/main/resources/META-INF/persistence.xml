@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="3.0" 
+             xmlns="https://jakarta.ee/xml/ns/persistence" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+    
+    <persistence-unit name="jpa_kreo" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <non-jta-data-source>java:comp/env/jdbc/kreo</non-jta-data-source>
+        <class>fr.stripekpi.start.entities.kpi.PaymentKPI</class>
+        <class>fr.stripekpi.start.entities.kpi.SubscriptionKPI</class>
+        <class>fr.stripekpi.start.entities.kpi.CustomerKPI</class>
+        
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!-- Désactiver le scanning automatique des classes -->
+            <property name="hibernate.archive.autodetection" value="none"/>
+            <!-- Configuration du pool de connexions Hibernate -->
+            <property name="hibernate.connection.provider_class" value="org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl"/>
+        
+
+        </properties>
+    </persistence-unit>
+    
+    <persistence-unit name="jpa_kreoLocal" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <non-jta-data-source>java:comp/env/jdbc/kreoLocal</non-jta-data-source>
+        <class>fr.stripekpi.start.entities.kpi.PaymentKPI</class>
+        <class>fr.stripekpi.start.entities.kpi.SubscriptionKPI</class>
+        <class>fr.stripekpi.start.entities.kpi.CustomerKPI</class>
+        
+        <properties>
+            <!-- Propriétés Hibernate -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!-- Désactiver le scanning automatique des classes -->
+            <property name="hibernate.archive.autodetection" value="none"/>
+            <!-- Configuration du pool de connexions Hibernate -->
+            <property name="hibernate.connection.provider_class" value="org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl"/>
+      
+            <!-- Si vous voulez que Hibernate mette à jour automatiquement le schéma -->
+            <!-- <property name="hibernate.hbm2ddl.auto" value="update"/> -->
+        </properties>
+    </persistence-unit>
+    
+</persistence>

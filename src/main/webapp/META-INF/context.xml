@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/start">
+  <WatchedResource>WEB-INF/web.xml</WatchedResource>
+  <WatchedResource>WEB-INF/beans.xml</WatchedResource>
+  <!-- DataSource Production -->
+  <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" 
+            factory="org.apache.tomcat.jdbc.pool.DataSourceFactory" 
+            initialSize="10" maxAge="600000" maxIdle="4" maxTotal="100" 
+            maxWaitMillis="10000" minIdle="4" name="jdbc/kreo" password="@##Mplkf0781e" 
+            rollbackOnReturn="true" testOnBorrow="true" timeBetweenEvictionRunsMillis="30000" 
+            type="javax.sql.DataSource" url="jdbc:mysql://139.99.171.7:2002/kreo" 
+            username="tomcat" validationInterval="30000" validationQuery="SELECT 1"/>
+  <!--  DataSource Local  -->
+  <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" 
+            factory="org.apache.tomcat.jdbc.pool.DataSourceFactory" 
+            initialSize="10" maxAge="600000" maxIdle="4" maxTotal="100" 
+            maxWaitMillis="10000" minIdle="4" name="jdbc/kreoLocal" password="@##Mplkf0781e" 
+            rollbackOnReturn="true" testOnBorrow="true" timeBetweenEvictionRunsMillis="30000" 
+            type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/kreo" username="tomcat" 
+            validationInterval="30000" validationQuery="SELECT 1"/>-->
+  
+  
+  <Resource auth="Container" factory="org.jboss.weld.resources.ManagerObjectFactory" name="BeanManager" type="jakarta.enterprise.inject.spi.BeanManager"/>
+</Context>
