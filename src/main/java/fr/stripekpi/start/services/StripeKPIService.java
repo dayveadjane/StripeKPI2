@@ -99,12 +99,23 @@ public class StripeKPIService {
 
             List<Customer> customers = getAllCustomers(params);
 
+            // Remplacez cette ligne :
+// CustomerKPI kpi = new CustomerKPI();
+// Par :
             CustomerKPI kpi = new CustomerKPI();
-            kpi.setMeasurementDate(endDate);
             kpi.setPeriodType(periodType);
             kpi.setTotalCustomers(customers.size());
             kpi.setNewCustomers(countNewCustomers(customers, startDate));
+            kpi.setMeasurementDate(endDate);
+            // Récupérer le nombre de clients actifs
+            int activeCustomers = 0;
+            for (Customer customer : customers) {
+                // if (customer.getLastResponse() != null && customer.getLastOrderDate().isAfter(startDate)) {
+                activeCustomers++;
+                // }
+            }
 
+            kpi.setActiveCustomers(activeCustomers);
             em.persist(kpi);
             em.getTransaction().commit();
 
@@ -120,9 +131,11 @@ public class StripeKPIService {
     }
 
     private List<Customer> getAllCustomers(CustomerListParams initialParams) throws StripeException {
+        
         List<Customer> allCustomers = new ArrayList<>();
         String lastId = null;
-
+        CustomerCollection collection;
+        
         do {
             Map<String, Object> params = new HashMap<>();
             if (lastId != null) {
@@ -132,7 +145,7 @@ public class StripeKPIService {
                 params = initialParams.toMap();
             }
 
-            CustomerCollection collection = Customer.list(params);
+            collection = Customer.list(params);
             List<Customer> data = collection.getData();
             allCustomers.addAll(data);
 
@@ -151,5 +164,28 @@ public class StripeKPIService {
         return (int) customers.stream()
                 .filter(c -> c.getCreated() >= startTimestamp)
                 .count();
+    }
+
+    public List<Customer> listCustomers(CustomerListParams params) {
+
+        List<Customer> customers;
+
+        try {
+
+            /*CustomerListParams params = CustomerListParams.builder()
+                    .setCreated(
+                            CustomerListParams.Created.builder()
+                                    .setGte(startDateEpoch)
+                                    .setLte(endDateEpoch)
+                                    .build()
+                    )
+                    .setLimit(100L)
+                    .build();*/
+            customers = getAllCustomers(params);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to calculate customer KPIs", e);
+        }
+        return customers;
+
     }
 }

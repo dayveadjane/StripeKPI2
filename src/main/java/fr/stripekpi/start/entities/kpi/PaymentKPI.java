@@ -1,61 +1,68 @@
 package fr.stripekpi.start.entities.kpi;
 
+/**
+ * Entity class for tracking and analyzing payment-related KPIs. Stores metrics
+ * about transaction success rates, volumes, and financial data.
+ *
+ * @author ML (laurent.madarassou@gmail.com)
+ * @version 1.0.0
+ * @since 2024-11-07
+ */
 
 import jakarta.persistence.*;
-
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "payment_kpis")
-public class PaymentKPI {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Getter
+@Setter
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class PaymentKPI extends AbstractKPI {
 
-    @Column(name = "measurement_date")
-    private LocalDateTime measurementDate;
-
-    @Column(name = "total_transactions")
+    @Column(name = "total_transactions", nullable = false)
     private Integer totalTransactions;
 
-    @Column(name = "successful_transactions")
+    @Column(name = "successful_transactions", nullable = false)
     private Integer successfulTransactions;
 
-    @Column(name = "failed_transactions")
+    @Column(name = "failed_transactions", nullable = false)
     private Integer failedTransactions;
 
-    @Column(name = "total_amount")
+    @Column(name = "total_amount", nullable = false, precision = 20, scale = 2)
     private BigDecimal totalAmount;
 
-    @Column(name = "average_transaction_amount")
+    @Column(name = "average_transaction_amount", precision = 20, scale = 2)
     private BigDecimal averageTransactionAmount;
 
-    @Column(name = "success_rate")
+    @Column(name = "success_rate", precision = 5, scale = 2)
     private BigDecimal successRate;
 
-    @Column(name = "currency")
+    @Column(name = "currency", length = 3)
     private String currency;
 
-    @Column(name = "period_type")
-    @Enumerated(EnumType.STRING)
-    private PeriodType periodType;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getMeasurementDate() {
-        return measurementDate;
-    }
-
-    public void setMeasurementDate(LocalDateTime measurementDate) {
-        this.measurementDate = measurementDate;
-    }
+            
+            
+    @ElementCollection
+    @CollectionTable(name = "payment_kpi_metrics",
+            joinColumns = @JoinColumn(name = "payment_kpi_id"))
+    @MapKeyColumn(name = "metric_name")
+    @Column(name = "metric_value")
+    private Map<String, String> additionalMetrics = new HashMap<>();
 
     public Integer getTotalTransactions() {
         return totalTransactions;
@@ -113,18 +120,16 @@ public class PaymentKPI {
         this.currency = currency;
     }
 
-    public PeriodType getPeriodType() {
-        return periodType;
+    public Map<String, String> getAdditionalMetrics() {
+        return additionalMetrics;
     }
 
-    public void setPeriodType(PeriodType periodType) {
-        this.periodType = periodType;
+    public void setAdditionalMetrics(Map<String, String> additionalMetrics) {
+        this.additionalMetrics = additionalMetrics;
     }
 
-    
-    
-    
-    public enum PeriodType {
-        HOURLY, DAILY, WEEKLY, MONTHLY, YEARLY
-    }
+
+
+
+
 }
