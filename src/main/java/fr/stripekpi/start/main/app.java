@@ -11,7 +11,7 @@ import jakarta.ws.rs.core.Application;
  * @author Juneau */
 
  
-@ApplicationPath("r")
+@ApplicationPath("1")
 public class app extends Application {
     
 }

@@ -16,7 +16,7 @@ import jakarta.inject.Inject;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-@Path("z")
+@Path("2")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class StripeKPIRest {
