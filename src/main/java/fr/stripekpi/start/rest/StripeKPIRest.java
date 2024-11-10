@@ -67,7 +67,7 @@ public class StripeKPIRest {
             Logger.getLogger(StripeKPIRest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        CustomerSearchParams params2 = CustomerSearchParams.builder().setQuery("name:'Jane Doe' AND metadata['foo']:'bar'").build();
+        CustomerSearchParams params2 = CustomerSearchParams.builder().setQuery("email:'faith-ruta@domain_name.com' AND metadata['foo']:'bar'").build();
 
         try {
             CustomerSearchResult customers2 = Customer.search(params2);
